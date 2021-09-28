@@ -8,11 +8,31 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://Entities/Entities/Entity.gd"
+}, {
+"base": "Reference",
+"class": "EntityTracker",
+"language": "GDScript",
+"path": "res://Systems/EntityTracker.gd"
+} ]
+_global_script_class_icons={
+"Entity": "",
+"EntityTracker": ""
+}
+
 [application]
 
 config/name="isometric-builder"
 run/main_scene="res://Simulation.tscn"
 config/icon="res://icon.png"
+
+[autoload]
+
+Events="*res://Autoload/Events.gd"
 
 [display]
 
