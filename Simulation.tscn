@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Shared/Tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Systems/Simulation.gd" type="Script" id=3]
-[ext_resource path="res://StirlingEngineEntity.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Entities/Entities/StirlingEngineEntity.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Systems/EntityPlacer.gd" type="Script" id=5]
 
 [node name="Simulation" type="Node2D"]
 script = ExtResource( 3 )
@@ -27,6 +28,7 @@ cell_size = Vector2( 100, 50 )
 cell_custom_transform = Transform2D( 0, 0, 0, 0, 0, 0 )
 cell_y_sort = true
 format = 1
+script = ExtResource( 5 )
 
 [node name="StirlingEngineEntity" parent="GameWorld/YSort/EntityPlacer" instance=ExtResource( 4 )]
 position = Vector2( 100.78, -30.7013 )
