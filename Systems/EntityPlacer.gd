@@ -18,6 +18,12 @@ onready var Library := {
 	"StirlingEngine": preload("res://Entities/Blueprints/StirlingEngineBlueprint.tscn").instance(),
 }
 
+func _process(_delta: float) -> void:
+	var has_placeable_blueprint: bool = _blueprint and _blueprint.placeable
+
+	if has_placeable_blueprint:
+		_move_blueprint_in_world(world_to_map(get_global_mouse_position()))
+
 func _ready() -> void:
 	print("BLUEPRINT")
 	print(_blueprint)
