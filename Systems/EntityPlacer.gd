@@ -5,6 +5,10 @@ const MAXIMUM_WORK_DISTANCE := 275.0
 
 const POSITION_OFFSET := Vector2(0, 0)
 # const POSITION_OFFSET := Vector2(0, 25)
+const DECONSTRUCT_TIME := 0.3
+
+var _current_deconstruct_location := Vector2.ZERO
+
 
 var _blueprint: BlueprintEntity
 
@@ -17,6 +21,8 @@ var _player: KinematicBody2D
 onready var Library := {
 	"StirlingEngine": preload("res://Entities/Blueprints/StirlingEngineBlueprint.tscn").instance(),
 }
+
+onready var _deconstruct_timer := $Timer
 
 func _process(_delta: float) -> void:
 	var has_placeable_blueprint: bool = _blueprint and _blueprint.placeable
@@ -59,6 +65,9 @@ func _unhandled_input(event: InputEvent) -> void:
 
 	var is_on_ground := _ground.get_cellv(cellv) == 0
 
+	if event is InputEventMouseMotion:
+		_abort_deconstruct()
+
 	if event.is_action_pressed("left_click"):
 		if has_placeable_blueprint:
 			if not cell_is_occupied and is_close_to_player and is_on_ground:
@@ -79,6 +88,13 @@ func _unhandled_input(event: InputEvent) -> void:
 		add_child(_blueprint)
 		_move_blueprint_in_world(cellv)
 
+	elif event.is_action_pressed("right_click") and not has_placeable_blueprint:
+		if cell_is_occupied and is_close_to_player:
+			_deconstruct(global_mouse_position, cellv)
+
+	elif event is InputEventMouseMotion:
+		if cellv != _current_deconstruct_location:
+			_abort_deconstruct()
 
 func _move_blueprint_in_world(cellv: Vector2) -> void:
 	## check this because it has the POSITION_OFFSET
@@ -88,8 +104,6 @@ func _move_blueprint_in_world(cellv: Vector2) -> void:
 		get_global_mouse_position().distance_to(_player.global_position) < MAXIMUM_WORK_DISTANCE
 	)
 
-	print("GROUND CELL")
-	print(_ground.get_cellv(cellv))
 	var is_on_ground: bool = _ground.get_cellv(cellv) == 0
 	var cell_is_occupied := _tracker.is_cell_occupied(cellv)
 
@@ -108,3 +122,18 @@ func _place_entity(cellv: Vector2) -> void:
 	new_entity._setup(_blueprint)
 
 	_tracker.place_entity(new_entity, cellv)
+
+func _deconstruct(event_position: Vector2, cellv: Vector2) -> void:
+	_deconstruct_timer.connect("timeout", self, "_finish_deconstruct", [cellv], CONNECT_ONESHOT)
+	_deconstruct_timer.start(DECONSTRUCT_TIME)
+	_current_deconstruct_location = cellv
+
+func _finish_deconstruct(cellv: Vector2) -> void:
+	var entity := _tracker.get_entity_at(cellv)
+	_tracker.remove_entity(cellv)
+
+func _abort_deconstruct() -> void:
+	print(_deconstruct_timer)
+	if _deconstruct_timer.is_connected("timeout", self, "_finish_deconstruct"):
+		_deconstruct_timer.disconnect("timeout", self, "_finish_deconstruct")
+	_deconstruct_timer.stop()
