@@ -12,7 +12,7 @@ extends BlueprintEntity
 ## This keeps the helper funcitons below input safe. In case the user ever passes in a single 
 ## direciton, Godot will not crash because of a missing dictionary key.
 ## ALl 15 possible numbers have a corresponding sprite region we've chosen.
-const DIRECTION_DATA := {
+const DIRECTIONS_DATA := {
 	# The `React2` values below correspond to different wire sprites in our `tileset.svg` sprite sheet.
 	# As shown in the image above, in the `tileset.svg` and `blueprints.svg` textures, each sprite
 	# fits in a `100` by `100` pixels quare.

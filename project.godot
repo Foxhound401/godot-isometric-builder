@@ -28,12 +28,24 @@ _global_script_classes=[ {
 "class": "Types",
 "language": "GDScript",
 "path": "res://Shared/Types.gd"
+}, {
+"base": "BlueprintEntity",
+"class": "WireBlueprint",
+"language": "GDScript",
+"path": "res://Entities/Blueprints/WireBlueprint.gd"
+}, {
+"base": "Entity",
+"class": "WireEntity",
+"language": "GDScript",
+"path": "res://Entities/Entities/WireEntity.gd"
 } ]
 _global_script_class_icons={
 "BlueprintEntity": "",
 "Entity": "",
 "EntityTracker": "",
-"Types": ""
+"Types": "",
+"WireBlueprint": "",
+"WireEntity": ""
 }
 
 [application]
