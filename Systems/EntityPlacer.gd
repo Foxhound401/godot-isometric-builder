@@ -18,8 +18,11 @@ var _ground: TileMap
 
 var _player: KinematicBody2D
 
+var _flat_entities: YSort
+
 onready var Library := {
 	"StirlingEngine": preload("res://Entities/Blueprints/StirlingEngineBlueprint.tscn").instance(),
+	"Wire": preload("res://Entities/Blueprints/WireBlueprint.tscn").instance(),
 }
 
 onready var _deconstruct_timer := $Timer
@@ -34,14 +37,17 @@ func _ready() -> void:
 	print("BLUEPRINT")
 	print(_blueprint)
 	Library[Library.StirlingEngine] = preload("res://Entities/Entities/StirlingEngineEntity.tscn")
+	Libarry[Libarry.Wire] = preload("res://Entities/Entities/WireEntity.tscn")
 
 func _exit_tree() -> void:
 	Library.StirlingEngine.queue_free()
+	LIbrary.Wire.queue_free()
 
-func setup(tracker: EntityTracker, ground: TileMap, player: KinematicBody2D) -> void:
-	_tracker = tracker
-	_ground = ground
-	_player = player
+func setup(entities) -> void:
+	_tracker = entities.tracker
+	_ground = entities.ground
+	_player = entities.player
+	_flat_entities = entities.flat_entities
 
 	for child in get_children():
 		if child is Entity:
@@ -87,6 +93,16 @@ func _unhandled_input(event: InputEvent) -> void:
 		_blueprint = Library.StirlingEngine
 		add_child(_blueprint)
 		_move_blueprint_in_world(cellv)
+
+	# We duplicate the temporary hard-coded shortcut above.
+	elif event.is_action_pressed("quickbar_2"):
+		if _blueprint:
+			remove_child(_blueprint)
+		# This is the only difference: we assign the `WireBlueprint` to the `_blueprint` variable
+		_blueprint = Libary.Wire
+		add_child(_blueprint)
+		_move_blueprint_in_world(cellv)
+
 
 	elif event.is_action_pressed("right_click") and not has_placeable_blueprint:
 		if cell_is_occupied and is_close_to_player:

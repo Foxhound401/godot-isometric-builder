@@ -23,11 +23,17 @@ _global_script_classes=[ {
 "class": "EntityTracker",
 "language": "GDScript",
 "path": "res://Systems/EntityTracker.gd"
+}, {
+"base": "Reference",
+"class": "Types",
+"language": "GDScript",
+"path": "res://Shared/Types.gd"
 } ]
 _global_script_class_icons={
 "BlueprintEntity": "",
 "Entity": "",
-"EntityTracker": ""
+"EntityTracker": "",
+"Types": ""
 }
 
 [application]
