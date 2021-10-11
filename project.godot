@@ -25,6 +25,11 @@ _global_script_classes=[ {
 "path": "res://Systems/EntityTracker.gd"
 }, {
 "base": "Reference",
+"class": "PowerSystem",
+"language": "GDScript",
+"path": "res://Systems/Power/PowerSystem.gd"
+}, {
+"base": "Reference",
 "class": "Types",
 "language": "GDScript",
 "path": "res://Shared/Types.gd"
@@ -43,6 +48,7 @@ _global_script_class_icons={
 "BlueprintEntity": "",
 "Entity": "",
 "EntityTracker": "",
+"PowerSystem": "",
 "Types": "",
 "WireBlueprint": "",
 "WireEntity": ""
