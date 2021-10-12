@@ -100,4 +100,23 @@ func _on_entity_removed(_entity, cellv: Vector2) -> void:
 
 ## We'll implement this function in the next lession
 func _retrace_paths() -> void:
-	pass
+	# Clears old paths.
+	paths.clear()
+
+	# For each power source...
+	for source in power_sources.keys():
+		# ...start a brand new path trace so all cells are possible contenders.
+		cells_travelled.clear()
+
+		# trace the path the current cell location, with an array with the source's cell as index 0.
+		var path := _trace_path_from(source, [source])
+
+		# And we add the result to the `paths` array. 
+		paths.push_back(path)
+
+## Recursively trace a path from the source cell outwards, skipping already
+## visited cells, going through cells recognized by the power system.
+func _trace_path_from(cellv: Vector2, path: Array) -> Array:
+	# As soon as we reach any given cell, we keep track that we've already visited it.
+	# Recursive functions are sentivie to overflowing, so this ensures we won't
+	# travel back and forth
