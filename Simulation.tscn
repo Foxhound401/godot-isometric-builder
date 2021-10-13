@@ -36,3 +36,7 @@ position = Vector2( 100.78, -30.7013 )
 [node name="Timer" type="Timer" parent="GameWorld/YSort/EntityPlacer"]
 
 [node name="Player" parent="GameWorld/YSort" instance=ExtResource( 2 )]
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
